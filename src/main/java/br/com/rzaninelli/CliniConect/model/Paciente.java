@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "tbl_paciente")
+@Table(name = "tbl_pacientes")
 public class Paciente {
 
     @Id
@@ -30,6 +30,9 @@ public class Paciente {
 
     @Column(name = "celular", length = 11)
     private String telefonePaciente;
+
+    @Column(name = "ativo")
+    private Boolean ativoPaciente;
 
     @Column(name = "link_foto", length = 255)
     private String linkFoto;
@@ -88,6 +91,14 @@ public class Paciente {
 
     public void setTelefonePaciente(String telefonePaciente) {
         this.telefonePaciente = telefonePaciente;
+    }
+
+    public Boolean getAtivoPaciente() {
+        return ativoPaciente;
+    }
+
+    public void setAtivoPaciente(Boolean ativoPaciente) {
+        this.ativoPaciente = ativoPaciente;
     }
 
     public String getLinkFoto() {
