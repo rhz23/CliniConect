@@ -5,15 +5,21 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.jdbc.Sql;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 @ActiveProfiles("test")
+@Sql("/import.sql")
 public class PacienteServiceTest {
 
     @Autowired
     IPacienteService pacienteService;
+
+
 
     @Test
     public void CriarPacienteHappyDay() {
@@ -28,38 +34,47 @@ public class PacienteServiceTest {
         assertTrue(resultadoPaciente.getNomePaciente().equals(nome), "Nome do paciente diferente do esperado");
     }
 
-    public void tentarAlterarPaciente() {
+    public void alterarPacienteHappyDay() {
         //TODO 03/08/2024 rhzan:
     }
 
-    public void tentarListarPacientes() {
+    public void ListarPacientesHappyDay() {
         //TODO 03/08/2024 rhzan:
     }
 
-    public void tentarlistarPacientePorId() {
-        //TODO 03/08/2024 rhzan:
-    }
-
-    public void tentarlistarPacientePorNome() {
-        //TODO 03/08/2024 rhzan:
-    }
-
-    public void tentarListarPacientePorCpf() {
-        //TODO 03/08/2024 rhzan:
-    }
-
-    public void tentarListarPacientePorEmail() {
+    public void listarPacientePorIdHappyDay() {
         //TODO 03/08/2024 rhzan:
     }
 
     @Test
-    public void tentarExcluirPaciente() {
+    public void listarPacientePorNomeHappyDay() {
+        //TODO 03/08/2024 rhzan:
+        List<Paciente> listaPacientes = pacienteService.buscarPacientesPorNome("a");
+        assertTrue(listaPacientes.size() > 0, "Não retornou nenhum paciente quando deveria retornar 5");
+
+
+    }
+
+    public void ListarPacientePorCpfHappyDay() {
+        //TODO 03/08/2024 rhzan:
+    }
+
+    public void ListarPacientePorEmailHappyDay() {
+        //TODO 03/08/2024 rhzan:
+    }
+
+    @Test
+    public void ExcluirPacienteHappyDay() {
         Paciente paciente = new Paciente();
         paciente.setNomePaciente("Maria");
         Paciente pacienteCadastrado = pacienteService.cadastrarPaciente(paciente);
         Integer idPacienteCadastrado = pacienteCadastrado.getIdPaciente();
 
         assertTrue(pacienteService.deletarPaciente(idPacienteCadastrado), "Não foi possivel excluir paciente cadastrado");
+    }
+
+    public void TentarExcluirPacienteInexistente() {
+        //TODO 03/08/2024 rhzan:
     }
 
 
