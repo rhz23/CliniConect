@@ -21,7 +21,6 @@ public class PacienteController {
     //TODO 03/08/2024 rhzan: Implement the GETMapping
     @GetMapping("/pacientes")
     public ResponseEntity<List<Paciente>> recuperarTodosPacientes() {
-
         List<Paciente> pacientes = pacienteService.listarPacientes();
         if (!pacientes.isEmpty()) {
             return ResponseEntity.ok().body(pacientes);
@@ -58,6 +57,18 @@ public class PacienteController {
     }
 
     //TODO 03/08/2024 rhzan: Implement the PUTMapping
+    @PutMapping("/pacientes/{id}")
+    public ResponseEntity<Paciente> alterarPaciente(@PathVariable Integer id, @RequestBody Paciente paciente) throws Exception {
+        if (id != null) {
+            paciente.setIdPaciente(id);
+        }
+        Paciente pacienteAtual = pacienteService.buscarPacientePorId(id);
+        if (pacienteAtual != null) {
+            pacienteAtual = pacienteService.alterarPaciente(paciente);
+            return ResponseEntity.ok().body(pacienteAtual);
+        }
+        return ResponseEntity.notFound().build();
+    }
 
     //TODO 03/08/2024 rhzan: Implement the DELETMapping
 }
