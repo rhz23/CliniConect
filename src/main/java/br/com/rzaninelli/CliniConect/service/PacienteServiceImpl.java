@@ -90,12 +90,12 @@ public class PacienteServiceImpl implements IPacienteService{
     }
 
     @Override
-    public boolean deletarPaciente(Integer id) {
+    public Paciente deletarPaciente(Integer id) {
         Paciente paciente = buscarPacientePorId(id);
         if(paciente != null){
-            pacienteDAO.delete(paciente);
-            return true;
+            pacienteDAO.deleteById(id);
+            return paciente;
         }
-        return false;
+        return null;
     }
 }

@@ -71,4 +71,12 @@ public class PacienteController {
     }
 
     //TODO 03/08/2024 rhzan: Implement the DELETMapping
+    @DeleteMapping("/paciente/{id}")
+    public ResponseEntity<Paciente> excluirPaciente(@PathVariable Integer id) throws Exception {
+        Paciente paciente = pacienteService.deletarPaciente(id);
+        if (paciente != null) {
+            return ResponseEntity.ok().body(paciente);
+        }
+        return ResponseEntity.notFound().build();
+    }
 }

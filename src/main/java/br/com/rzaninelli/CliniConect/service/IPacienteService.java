@@ -13,5 +13,5 @@ public interface IPacienteService {
     public List<Paciente> buscarPacientesPorNome(String nome);
     public Paciente buscarPacientesPorCpf(String cpf);
     public Paciente buscarPacientesPorEmail(String email);
-    public boolean deletarPaciente(Integer id);
+    public Paciente deletarPaciente(Integer id);
 }

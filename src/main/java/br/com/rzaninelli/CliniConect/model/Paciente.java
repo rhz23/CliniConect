@@ -1,8 +1,11 @@
 package br.com.rzaninelli.CliniConect.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "tbl_pacientes")
@@ -36,6 +39,14 @@ public class Paciente {
 
     @Column(name = "link_foto", length = 255)
     private String linkFoto;
+
+    @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("paciente")
+    private List<Atendimento> atendimentos;
+
+    @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("paciente")
+    private List<Midia> midias;
 
     public Integer getIdPaciente() {
         return idPaciente;
@@ -109,5 +120,19 @@ public class Paciente {
         this.linkFoto = linkFoto;
     }
 
+    public List<Atendimento> getAtendimentos() {
+        return atendimentos;
+    }
 
+    public void setAtendimentos(List<Atendimento> atendimentos) {
+        this.atendimentos = atendimentos;
+    }
+
+    public List<Midia> getMidias() {
+        return midias;
+    }
+
+    public void setMidias(List<Midia> midias) {
+        this.midias = midias;
+    }
 }
