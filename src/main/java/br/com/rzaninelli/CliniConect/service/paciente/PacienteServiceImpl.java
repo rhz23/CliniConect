@@ -1,9 +1,10 @@
-package br.com.rzaninelli.CliniConect.service;
+package br.com.rzaninelli.CliniConect.service.paciente;
 
 import br.com.rzaninelli.CliniConect.dao.PacienteDAO;
 import br.com.rzaninelli.CliniConect.model.Paciente;
-import jakarta.persistence.Column;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -64,8 +65,8 @@ public class PacienteServiceImpl implements IPacienteService{
     private String linkFoto;
 
     @Override
-    public List<Paciente> listarPacientes() {
-        return pacienteDAO.findAll();
+    public Page<Paciente> listarPacientes(Pageable paginacao) {
+        return pacienteDAO.findAll(paginacao);
     }
 
     @Override
@@ -74,7 +75,7 @@ public class PacienteServiceImpl implements IPacienteService{
     }
 
     @Override
-    public List<Paciente> buscarPacientesPorNome(String nome) {
+    public List<Paciente> buscarPacientesPorNome(String nome, Pageable pagina) {
         return pacienteDAO.findByNomePacienteContaining(nome);
     }
 
@@ -98,4 +99,5 @@ public class PacienteServiceImpl implements IPacienteService{
         }
         return null;
     }
+
 }

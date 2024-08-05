@@ -1,42 +1,75 @@
 package br.com.rzaninelli.CliniConect.controller;
 
 import br.com.rzaninelli.CliniConect.model.Paciente;
-import br.com.rzaninelli.CliniConect.service.IPacienteService;
+import br.com.rzaninelli.CliniConect.service.paciente.IPacienteService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @CrossOrigin("*")
 public class PacienteController {
 
+    private static final Logger log = LoggerFactory.getLogger(PacienteController.class);
+
     @Autowired
     IPacienteService pacienteService;
 
-    //TODO 03/08/2024 rhzan: Implement the GETMapping
+
     @GetMapping("/pacientes")
-    public ResponseEntity<List<Paciente>> recuperarTodosPacientes() {
-        List<Paciente> pacientes = pacienteService.listarPacientes();
-        if (!pacientes.isEmpty()) {
-            return ResponseEntity.ok().body(pacientes);
+    public ResponseEntity<Map<String, Object>> recuperarTodosPacientes(@RequestParam(defaultValue = "0") int pagina, @RequestParam(defaultValue = "5") int tamanho, @RequestParam(defaultValue = "nomePaciente") String atributo) {
+        try {
+            Sort ordenacao = Sort.by(atributo).ascending();
+            Pageable paginanaco = PageRequest.of(pagina, tamanho, ordenacao);
+            Page<Paciente> paginaPacientes = pacienteService.listarPacientes(paginanaco);
+
+            if (!paginaPacientes.isEmpty()) {
+
+                Map<String, Object> response = new HashMap<>();
+                response.put("Paciente", paginaPacientes.getContent());
+                response.put("pagina", paginaPacientes.getNumber());
+                response.put("tamanho", paginaPacientes.getTotalElements());
+                response.put("paginasTotais", paginaPacientes.getTotalPages());
+
+                return ResponseEntity.ok().body(response);
+            }
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        } catch (Exception e) {
+            log.error("Erro ao recuperar lista de pacientes do banco de dados");
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
+    //TODO 04/08/2024 rhzan: Alterar o retorno para paginado
     @GetMapping("/pacientes/busca")
-    public ResponseEntity<List<Paciente>> buscarPacientePorNome(@RequestParam(name = "nome") String nome) {
-        List<Paciente> pacientes = pacienteService.buscarPacientesPorNome(nome);
-        if (!pacientes.isEmpty()) {
-            return ResponseEntity.ok().body(pacientes);
+    public ResponseEntity<Map<String, Object>> buscarPacientePorNome(@RequestParam(name = "nome") String nome, @RequestParam(defaultValue = "0") int pagina, @RequestParam(defaultValue = "5") int tamanho) {
+        Pageable paginanaco = PageRequest.of(pagina, tamanho);
+        Page<Paciente> paginaPacientes = pacienteService.listarPacientes(paginanaco);
+        if (paginaPacientes.isEmpty()) {
+            return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.notFound().build();
+        Map<String, Object> response = new HashMap<>();
+        response.put("Paciente", paginaPacientes.getContent());
+        response.put("pagina", paginaPacientes.getNumber());
+        response.put("tamanho", paginaPacientes.getTotalElements());
+        response.put("paginasTotais", paginaPacientes.getTotalPages());
+
+        return ResponseEntity.ok().body(response);
     }
 
+    //TODO 04/08/2024 rhzan: add tratamento de exceção
     @GetMapping("/pacientes/{id}")
     public ResponseEntity<Paciente> buscarPacientePorId(@PathVariable int id) {
         Paciente paciente = pacienteService.buscarPacientePorId(id);
@@ -47,7 +80,7 @@ public class PacienteController {
     }
 
     //TODO 03/08/2024 rhzan: Implement the POSTMapping
-    @PostMapping("/paciente")
+    @PostMapping("/pacientes")
     public ResponseEntity<Paciente> inserirPaciente(@RequestBody Paciente paciente) throws Exception {
         Paciente resultado = pacienteService.cadastrarPaciente(paciente);
         if (resultado != null) {
@@ -56,7 +89,7 @@ public class PacienteController {
         return ResponseEntity.badRequest().build();
     }
 
-    //TODO 03/08/2024 rhzan: Implement the PUTMapping
+    //TODO 03/08/2024 rhzan: add tratamento de exceção
     @PutMapping("/pacientes/{id}")
     public ResponseEntity<Paciente> alterarPaciente(@PathVariable Integer id, @RequestBody Paciente paciente) throws Exception {
         if (id != null) {
@@ -70,7 +103,7 @@ public class PacienteController {
         return ResponseEntity.notFound().build();
     }
 
-    //TODO 03/08/2024 rhzan: Implement the DELETMapping
+    //TODO 03/08/2024 rhzan: add tratamento de exceção
     @DeleteMapping("/paciente/{id}")
     public ResponseEntity<Paciente> excluirPaciente(@PathVariable Integer id) throws Exception {
         Paciente paciente = pacienteService.deletarPaciente(id);

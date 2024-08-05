@@ -1,9 +1,13 @@
 package br.com.rzaninelli.CliniConect.service;
 
 import br.com.rzaninelli.CliniConect.model.Paciente;
+import br.com.rzaninelli.CliniConect.service.paciente.IPacienteService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 
@@ -34,32 +38,45 @@ public class PacienteServiceTest {
         assertTrue(resultadoPaciente.getNomePaciente().equals(nome), "Nome do paciente diferente do esperado");
     }
 
-    public void alterarPacienteHappyDay() {
-        //TODO 03/08/2024 rhzan:
-    }
-
-    public void ListarPacientesHappyDay() {
-        //TODO 03/08/2024 rhzan:
-    }
-
-    public void listarPacientePorIdHappyDay() {
+    public void alterarPaciente() {
         //TODO 03/08/2024 rhzan:
     }
 
     @Test
-    public void listarPacientePorNomeHappyDay() {
+    public void ListarPacientes() {
         //TODO 03/08/2024 rhzan:
-        List<Paciente> listaPacientes = pacienteService.buscarPacientesPorNome("a");
-        assertTrue(listaPacientes.size() > 0, "Não retornou nenhum paciente quando deveria retornar 5");
+        Sort ordenacao = Sort.by("nomePaciente").ascending();
+        Pageable paginanaco = PageRequest.of(0, 5, ordenacao);
 
+        List<Paciente> pacientes;
 
+        pacientes = pacienteService.listarPacientes(paginanaco).getContent();
+        assertTrue(pacientes.size() > 0, "Lista de pacientes retornou vazia");
+        assertTrue(pacientes.size() == 5, "Lista de pacientes deveria retornar 5 pacientes");
+
+        paginanaco = PageRequest.of(1, 5, ordenacao);
+        pacientes = pacienteService.listarPacientes(paginanaco).getContent();
+        assertTrue(pacientes.size() == 2, "Segunda pagina deveria conter somente 2 pacientes");
+
+        paginanaco = PageRequest.of(2, 5, ordenacao);
+        pacientes = pacienteService.listarPacientes(paginanaco).getContent();
+        assertTrue(pacientes.isEmpty(), "Terceira Pagina reveria retornar vazia");
     }
 
-    public void ListarPacientePorCpfHappyDay() {
+    public void listarPacientePorIdy() {
         //TODO 03/08/2024 rhzan:
     }
 
-    public void ListarPacientePorEmailHappyDay() {
+    @Test
+    public void listarPacientePorNome() {
+        //TODO 03/08/2024 rhzan:
+    }
+
+    public void ListarPacientePorCpf() {
+        //TODO 03/08/2024 rhzan:
+    }
+
+    public void ListarPacientePorEmail() {
         //TODO 03/08/2024 rhzan:
     }
 
@@ -70,7 +87,7 @@ public class PacienteServiceTest {
         Paciente pacienteCadastrado = pacienteService.cadastrarPaciente(paciente);
         Integer idPacienteCadastrado = pacienteCadastrado.getIdPaciente();
 
-//        assertTrue(pacienteService.deletarPaciente(idPacienteCadastrado), "Não foi possivel excluir paciente cadastrado");
+        assertTrue(pacienteService.deletarPaciente(idPacienteCadastrado).equals(paciente), "Não foi possivel excluir paciente cadastrado");
     }
 
     public void TentarExcluirPacienteInexistente() {

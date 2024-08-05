@@ -1,4 +1,4 @@
-package br.com.rzaninelli.CliniConect.utils.consultaEstado;
+package br.com.rzaninelli.CliniConect.dto;
 
 public class EstadoResultDTO {
 

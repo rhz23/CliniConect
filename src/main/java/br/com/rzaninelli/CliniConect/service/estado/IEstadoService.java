@@ -1,4 +1,4 @@
-package br.com.rzaninelli.CliniConect.service;
+package br.com.rzaninelli.CliniConect.service.estado;
 
 import br.com.rzaninelli.CliniConect.model.Estado;
 

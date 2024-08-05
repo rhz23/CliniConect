@@ -1,4 +1,4 @@
-package br.com.rzaninelli.CliniConect.service;
+package br.com.rzaninelli.CliniConect.service.estado;
 
 import br.com.rzaninelli.CliniConect.dao.EstadoDAO;
 import br.com.rzaninelli.CliniConect.model.Estado;
@@ -20,7 +20,7 @@ public class EstadoServiceImpl implements IEstadoService{
 
     @Override
     public List<Estado> listarEstados() {
-        return List.of();
+        return estadoDAO.findAll();
     }
 
     @Override
