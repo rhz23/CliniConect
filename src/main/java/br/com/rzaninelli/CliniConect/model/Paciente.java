@@ -1,6 +1,5 @@
 package br.com.rzaninelli.CliniConect.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
@@ -39,6 +38,10 @@ public class Paciente {
 
     @Column(name = "link_foto", length = 255)
     private String linkFoto;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_endereco", referencedColumnName = "id_endereco")
+    private Endereco endereco;
 
     @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("paciente")
@@ -134,5 +137,13 @@ public class Paciente {
 
     public void setMidias(List<Midia> midias) {
         this.midias = midias;
+    }
+
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
     }
 }

@@ -1,6 +1,9 @@
 package br.com.rzaninelli.CliniConect.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "tbl_estados")
@@ -15,6 +18,10 @@ public class Estado {
 
     @Column(name = "sigla_estado")
     private String siglaEstado;
+
+    @OneToMany(mappedBy = "estado", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("estado")
+    private List<Cidade> cidades;
 
     public Integer getIdEstado() {
         return idEstado;
@@ -38,5 +45,13 @@ public class Estado {
 
     public void setSiglaEstado(String siglaEstado) {
         this.siglaEstado = siglaEstado;
+    }
+
+    public List<Cidade> getCidades() {
+        return cidades;
+    }
+
+    public void setCidades(List<Cidade> cidades) {
+        this.cidades = cidades;
     }
 }

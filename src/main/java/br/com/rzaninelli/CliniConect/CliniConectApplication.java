@@ -7,6 +7,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.Scope;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
@@ -20,10 +22,13 @@ public class CliniConectApplication {
 	}
 
 	@Bean
-	CommandLineRunner init(ConsultaCidadeEstadoAPI consultaEstadosAPI) {
+	@Profile("prod")
+	CommandLineRunner init(ConsultaCidadeEstadoAPI consultaCidadeEstadosAPI) {
 		return args -> {
-			consultaEstadosAPI.carregarEstados();
+			consultaCidadeEstadosAPI.carregarEstados();
 			log.info("Carregando/atualizando Estados");
+//			consultaCidadeEstadosAPI.carregarCidades();
+//			log.info("Carregando/atualizando Cidades");
 		};
 	}
 }
