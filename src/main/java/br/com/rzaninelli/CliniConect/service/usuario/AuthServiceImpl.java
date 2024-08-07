@@ -8,7 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UsuarioServiceImpl implements IUsuarioService{
+public class AuthServiceImpl implements IAuthService {
 
     @Autowired
     UsuarioDAO usuarioDAO;
@@ -24,6 +24,14 @@ public class UsuarioServiceImpl implements IUsuarioService{
 
     @Override
     public CliniToken realizarLogin(Usuario dadosLogin) {
+
+        Usuario resultado = usuarioDAO.findByLogin(dadosLogin.getLogin());
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        if (resultado != null) {
+            if(encoder.matches(dadosLogin.getSenha(), resultado.getSenha())) {
+                return new CliniToken("Token123");
+            }
+        }
         return null;
     }
 }

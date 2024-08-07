@@ -6,7 +6,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -15,14 +14,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebSucurityConfig {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, HttpSecurity httpSecurity) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         //desabiliar a necessidade de authenticação do usuario
-        httpSecurity.csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth -> auth.requestMatchers(HttpMethod.POST, "/usuario").permitAll().anyRequest().authenticated())
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .oauth2ResourceServer(spec -> spec.jwt(Customizer.withDefaults()))
-                .httpBasic(Customizer.withDefaults()).build();
+        http.csrf(csrf -> csrf.disable())
+                        .authorizeHttpRequests(autorizar -> autorizar.requestMatchers(HttpMethod.POST, "/usuario", "/login").permitAll()
+                                .anyRequest().authenticated()).cors(Customizer.withDefaults());
 
         http.addFilterBefore(new MyFilter(), UsernamePasswordAuthenticationFilter.class);
 
