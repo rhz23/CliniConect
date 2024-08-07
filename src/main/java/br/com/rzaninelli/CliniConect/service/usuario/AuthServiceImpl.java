@@ -3,6 +3,7 @@ package br.com.rzaninelli.CliniConect.service.usuario;
 import br.com.rzaninelli.CliniConect.dao.UsuarioDAO;
 import br.com.rzaninelli.CliniConect.model.Usuario;
 import br.com.rzaninelli.CliniConect.security.CliniToken;
+import br.com.rzaninelli.CliniConect.security.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -25,11 +26,11 @@ public class AuthServiceImpl implements IAuthService {
     @Override
     public CliniToken realizarLogin(Usuario dadosLogin) {
 
-        Usuario resultado = usuarioDAO.findByLogin(dadosLogin.getLogin());
+        Usuario usuarioRes = usuarioDAO.findByLogin(dadosLogin.getLogin());
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        if (resultado != null) {
-            if(encoder.matches(dadosLogin.getSenha(), resultado.getSenha())) {
-                return new CliniToken("Token123");
+        if (usuarioRes != null) {
+            if(encoder.matches(dadosLogin.getSenha(), usuarioRes.getSenha())) {
+                return TokenUtil.encode(usuarioRes);
             }
         }
         return null;
