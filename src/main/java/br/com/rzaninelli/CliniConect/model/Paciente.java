@@ -2,6 +2,7 @@ package br.com.rzaninelli.CliniConect.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import org.springframework.lang.NonNull;
 
 import java.time.LocalDate;
 import java.util.List;

@@ -8,6 +8,6 @@ public interface ICidadeService {
 
     public Cidade cadastrarCidade(Cidade Cidade);
     public List<Cidade> listarCidades();
-    public Cidade buscarCidadePorId(int id);
-    public Cidade buscarCidadePorSigla(String sigla);
+    public Cidade buscarCidadePorId(Integer id);
+    public Cidade buscarCidadePorNome(String nome);
 }

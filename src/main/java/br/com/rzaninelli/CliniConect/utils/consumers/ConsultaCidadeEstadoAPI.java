@@ -1,4 +1,4 @@
-package br.com.rzaninelli.CliniConect.utils.consultaEstado;
+package br.com.rzaninelli.CliniConect.utils.consumers;
 
 import br.com.rzaninelli.CliniConect.dto.CidadeResultadoDTO;
 import br.com.rzaninelli.CliniConect.dto.EstadoResultDTO;

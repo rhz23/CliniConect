@@ -55,15 +55,6 @@ public class PacienteServiceImpl implements IPacienteService{
         return pacienteDAO.save(paciente);
     }
 
-    private String nomePaciente;
-    private String cpfPaciente;
-    private String sexoPaciente;
-    private LocalDate dataNascimento;
-    private String emailPaciente;
-    private String telefonePaciente;
-    private Boolean ativoPaciente;
-    private String linkFoto;
-
     @Override
     public Page<Paciente> listarPacientes(Pageable paginacao) {
         return pacienteDAO.findAll(paginacao);
@@ -76,6 +67,7 @@ public class PacienteServiceImpl implements IPacienteService{
 
     @Override
     public List<Paciente> buscarPacientesPorNome(String nome, Pageable pagina) {
+        //TODO: verificar retorno se nenhum encontrado e corrigir se necessário
         return pacienteDAO.findByNomePacienteContaining(nome);
     }
 
@@ -87,6 +79,7 @@ public class PacienteServiceImpl implements IPacienteService{
 
     @Override
     public Paciente buscarPacientesPorEmail(String email) {
+        //TODO: verificar retorno se nenhum encontrado e corrigir se necessário
         return pacienteDAO.findPacienteByEmailPaciente(email);
     }
 

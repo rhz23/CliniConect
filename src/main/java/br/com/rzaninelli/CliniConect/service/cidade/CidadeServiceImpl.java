@@ -23,13 +23,19 @@ public class CidadeServiceImpl implements ICidadeService{
         return cidadeDAO.findAll();
     }
 
+//    @Override
+//    public Cidade buscarCidadePorId(Integer id) {
+//        return cidadeDAO.findById(id).orElse(null);
+//    }
+
     @Override
-    public Cidade buscarCidadePorId(int id) {
-        return null;
+    public Cidade buscarCidadePorId(Integer id) {
+        return cidadeDAO.buscarCidadePorId(id);
+
     }
 
     @Override
-    public Cidade buscarCidadePorSigla(String sigla) {
-        return null;
+    public Cidade buscarCidadePorNome(String nome) {
+        return cidadeDAO.findByNomeCidade(nome);
     }
 }

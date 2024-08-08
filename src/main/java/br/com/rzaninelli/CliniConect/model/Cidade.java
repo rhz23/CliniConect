@@ -1,6 +1,7 @@
 package br.com.rzaninelli.CliniConect.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 @Entity
@@ -16,7 +17,6 @@ public class Cidade {
 
     @ManyToOne
     @JoinColumn(name = "id_estado")
-    @JsonBackReference("cidades")
     private Estado estado;
 
     public Integer getIdCidade() {

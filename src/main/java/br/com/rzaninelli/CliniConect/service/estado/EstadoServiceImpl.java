@@ -24,8 +24,8 @@ public class EstadoServiceImpl implements IEstadoService{
     }
 
     @Override
-    public Estado buscarEstadoPorId(int id) {
-        return null;
+    public Estado buscarEstadoPorId(Integer id) {
+        return estadoDAO.findById(id).orElse(null);
     }
 
     @Override
