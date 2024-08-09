@@ -25,8 +25,10 @@ public class Endereco {
     @JoinColumn(name = "id_cidade")
     private Cidade cidade;
 
-    @OneToOne(mappedBy = "endereco")
-    @JoinColumn(name = "id_paciente", referencedColumnName = "id")
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "id_paciente")
+    @JsonBackReference
     private Paciente paciente;
 
     public Integer getIdEndereco() {

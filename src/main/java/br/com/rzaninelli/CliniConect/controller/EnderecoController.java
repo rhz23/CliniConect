@@ -1,6 +1,8 @@
 package br.com.rzaninelli.CliniConect.controller;
 
+import br.com.rzaninelli.CliniConect.dao.PacienteDAO;
 import br.com.rzaninelli.CliniConect.model.Endereco;
+import br.com.rzaninelli.CliniConect.model.Paciente;
 import br.com.rzaninelli.CliniConect.service.endereco.IEnderecoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,21 +29,22 @@ public class EnderecoController {
         return ResponseEntity.notFound().build();
     }
 
-    @PostMapping("/endereco")
-    public ResponseEntity<Endereco> inserirEndereco(@RequestBody Endereco endereco) {
+    @PostMapping("/paciente/{id}/endereco")
+    public ResponseEntity<Endereco> inserirEndereco(@PathVariable Integer id, @RequestBody Endereco endereco) {
         try {
-            Endereco resultado = enderecoService.cadastrarEndereco(endereco);
+            Endereco resultado = enderecoService.cadastrarEndereco(endereco, id);
             if (resultado != null) {
                 return ResponseEntity.created(new URI("/endereco/"+resultado.getIdEndereco())).body(resultado);
             }
             return ResponseEntity.badRequest().build();
+
         } catch (Exception e) {
             log.error(e.getMessage());
             return ResponseEntity.internalServerError().body(endereco);
         }
     }
 
-    @PutMapping("/endereco/{id}")
+    @PutMapping("/paciente/{id}/endereco")
     public ResponseEntity<Endereco> atualizarEndereco(@PathVariable Integer id, @RequestBody Endereco endereco) {
 
         if (id != null) {
@@ -49,7 +52,7 @@ public class EnderecoController {
         }
         Endereco enderecoAtual = enderecoService.buscarEnderecoPorId(id);
         if (enderecoAtual != null) {
-            enderecoAtual = enderecoService.atualizarEndereco(endereco);
+            enderecoAtual = enderecoService.atualizarEndereco(endereco, id);
             return ResponseEntity.ok().body(enderecoAtual);
         }
         return ResponseEntity.notFound().build();

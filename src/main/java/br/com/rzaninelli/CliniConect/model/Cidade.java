@@ -17,6 +17,7 @@ public class Cidade {
 
     @ManyToOne
     @JoinColumn(name = "id_estado")
+    @JsonIgnoreProperties("cidades")
     private Estado estado;
 
     public Integer getIdCidade() {

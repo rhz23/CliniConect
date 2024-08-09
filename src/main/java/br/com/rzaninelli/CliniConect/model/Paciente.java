@@ -1,5 +1,7 @@
 package br.com.rzaninelli.CliniConect.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import org.springframework.lang.NonNull;
@@ -26,6 +28,7 @@ public class Paciente {
     private String sexoPaciente;
 
     @Column(name = "data_nasc")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate dataNascimento;
 
     @Column(name = "email", length = 45)
@@ -40,8 +43,8 @@ public class Paciente {
     @Column(name = "link_foto", length = 255)
     private String linkFoto;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_endereco", referencedColumnName = "id_endereco")
+    @OneToOne(mappedBy = "paciente", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
     private Endereco endereco;
 
     @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL)

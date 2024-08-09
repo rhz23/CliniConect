@@ -19,10 +19,6 @@ public class ConsultaCepViaCepAPI {
 
     private static final Logger log = LoggerFactory.getLogger(ConsultaCidadeEstadoAPI.class);
 
-    @Autowired
-    private IEstadoService estadoService;
-
-    private String cep;
     private String url = "viacep.com.br/ws/";
     private String uri;
 
