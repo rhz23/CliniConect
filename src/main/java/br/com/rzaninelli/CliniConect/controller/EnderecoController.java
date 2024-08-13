@@ -1,8 +1,6 @@
 package br.com.rzaninelli.CliniConect.controller;
 
-import br.com.rzaninelli.CliniConect.dao.PacienteDAO;
 import br.com.rzaninelli.CliniConect.model.Endereco;
-import br.com.rzaninelli.CliniConect.model.Paciente;
 import br.com.rzaninelli.CliniConect.service.endereco.IEnderecoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -23,6 +23,7 @@ public class PacienteController {
 
     private static final Logger log = LoggerFactory.getLogger(PacienteController.class);
 
+    //TODO 13/08/2024 rhzan: Refactor!
     @Autowired
     IPacienteService pacienteService;
 
@@ -36,6 +37,7 @@ public class PacienteController {
 
             if (!paginaPacientes.isEmpty()) {
 
+                //TODO 13/08/2024 rhzan: Refactor since used more than once
                 Map<String, Object> response = new HashMap<>();
                 response.put("Paciente", paginaPacientes.getContent());
                 response.put("pagina", paginaPacientes.getNumber());
@@ -47,7 +49,6 @@ public class PacienteController {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } catch (Exception e) {
             log.error("Erro ao recuperar lista de pacientes do banco de dados");
-            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
@@ -56,7 +57,7 @@ public class PacienteController {
     @GetMapping("/pacientes/busca")
     public ResponseEntity<Map<String, Object>> buscarPacientePorNome(@RequestParam(name = "nome") String nome, @RequestParam(defaultValue = "0") int pagina, @RequestParam(defaultValue = "5") int tamanho) {
         Pageable paginanaco = PageRequest.of(pagina, tamanho);
-        Page<Paciente> paginaPacientes = pacienteService.listarPacientes(paginanaco);
+        Page<Paciente> paginaPacientes = pacienteService.buscarPacientesPorNome(nome, paginanaco);
         if (paginaPacientes.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
@@ -91,7 +92,7 @@ public class PacienteController {
 
     //TODO 03/08/2024 rhzan: add tratamento de exceção
     @PutMapping("/pacientes/{id}")
-    public ResponseEntity<Paciente> alterarPaciente(@PathVariable Integer id, @RequestBody Paciente paciente) throws Exception {
+    public ResponseEntity<Paciente> alterarPaciente(@PathVariable Integer id, @RequestBody Paciente paciente) {
         if (id != null) {
             paciente.setIdPaciente(id);
         }
@@ -105,7 +106,7 @@ public class PacienteController {
 
     //TODO 03/08/2024 rhzan: add tratamento de exceção
     @DeleteMapping("/paciente/{id}")
-    public ResponseEntity<Paciente> excluirPaciente(@PathVariable Integer id) throws Exception {
+    public ResponseEntity<Paciente> excluirPaciente(@PathVariable Integer id) {
         Paciente paciente = pacienteService.deletarPaciente(id);
         if (paciente != null) {
             return ResponseEntity.ok().body(paciente);

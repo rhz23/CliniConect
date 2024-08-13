@@ -5,15 +5,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
-
 public interface PacienteDAO extends JpaRepository<Paciente, Integer> {
 
-    public Page<Paciente> findAll(Pageable paginacao);
+    Page<Paciente> findAll(Pageable paginacao);
 
-    public List<Paciente> findByNomePacienteContaining(String palavra);
+    Page<Paciente> findByNomePacienteContaining(String palavra, Pageable paginaca);
 
-    public Paciente findPacienteByCpfPaciente(String cpf);
+    Paciente findPacienteByCpfPaciente(String cpf);
 
-    public Paciente findPacienteByEmailPaciente(String email);
+    Paciente findPacienteByEmailPaciente(String email);
 }

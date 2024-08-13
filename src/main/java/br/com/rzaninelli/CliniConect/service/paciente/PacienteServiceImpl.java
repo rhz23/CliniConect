@@ -7,9 +7,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
-import java.util.List;
-
 @Component
 public class PacienteServiceImpl implements IPacienteService{
 
@@ -66,9 +63,9 @@ public class PacienteServiceImpl implements IPacienteService{
     }
 
     @Override
-    public List<Paciente> buscarPacientesPorNome(String nome, Pageable pagina) {
+    public Page<Paciente> buscarPacientesPorNome(String nome, Pageable pagina) {
         //TODO: verificar retorno se nenhum encontrado e corrigir se necessário
-        return pacienteDAO.findByNomePacienteContaining(nome);
+        return pacienteDAO.findByNomePacienteContaining(nome, pagina);
     }
 
     @Override
