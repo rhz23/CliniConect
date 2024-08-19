@@ -22,6 +22,7 @@ public class AtendimentoController {
 
     @Autowired
     IAtendimentoService atendimentoService;
+
     @Autowired
     IPacienteService pacienteService;
 

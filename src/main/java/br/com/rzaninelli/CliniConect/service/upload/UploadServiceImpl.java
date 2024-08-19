@@ -21,7 +21,7 @@ public class UploadServiceImpl implements IUploadService{
     public String upload(MultipartFile arquivo) {
         try {
             log.debug("Realizando Upload do arquivo" + arquivo.getOriginalFilename());
-            String pastaDestino = "F:\\TESTES\\Imagens";
+            String pastaDestino = "C:\\Projetos\\Angular\\cliniconect-front\\src\\assets\\media";
             String extensao = arquivo.getOriginalFilename().substring(arquivo.getOriginalFilename().lastIndexOf("."));
             String newFileName = UUID.randomUUID().toString() + extensao;
 

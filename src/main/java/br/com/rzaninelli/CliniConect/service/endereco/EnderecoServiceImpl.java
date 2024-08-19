@@ -32,6 +32,7 @@ public class EnderecoServiceImpl implements IEnderecoService {
 
         if (paciente != null) {
             endereco.setPaciente(paciente);
+            endereco.setIdEndereco(paciente.getIdPaciente());
             CepResultadoDTO cepResultado = cepViaCepAPI.recuperarDadosCep(endereco.getCep());
             if (cepResultado != null) {
                 if (!cepResultado.getLogradouro().isEmpty())

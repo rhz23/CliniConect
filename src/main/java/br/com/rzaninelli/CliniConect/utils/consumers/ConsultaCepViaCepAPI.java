@@ -1,18 +1,10 @@
 package br.com.rzaninelli.CliniConect.utils.consumers;
 
 import br.com.rzaninelli.CliniConect.dto.CepResultadoDTO;
-import br.com.rzaninelli.CliniConect.dto.EstadoResultDTO;
-import br.com.rzaninelli.CliniConect.model.Estado;
-import br.com.rzaninelli.CliniConect.service.estado.IEstadoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
-
-import java.util.List;
 
 @Component
 public class ConsultaCepViaCepAPI {

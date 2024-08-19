@@ -4,6 +4,7 @@ import br.com.rzaninelli.CliniConect.dao.AtendimentoDAO;
 import br.com.rzaninelli.CliniConect.model.Atendimento;
 import br.com.rzaninelli.CliniConect.model.Paciente;
 import br.com.rzaninelli.CliniConect.service.paciente.IPacienteService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,6 +21,7 @@ public class AtendimentoServiceImpl implements IAtendimentoService{
     @Autowired
     IPacienteService pacienteService;
 
+    @Transactional
     @Override
     public Atendimento cadastrarAtendimento(Atendimento atendimento, Integer idPaciente) {
 

@@ -1,10 +1,9 @@
 package br.com.rzaninelli.CliniConect.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import org.springframework.lang.NonNull;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -44,14 +43,15 @@ public class Paciente {
     private String linkFoto;
 
     @OneToOne(mappedBy = "paciente", cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
+//    @PrimaryKeyJoinColumn
+    @JsonManagedReference
     private Endereco endereco;
 
     @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("paciente")
     private List<Atendimento> atendimentos;
 
-    @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties("paciente")
     private List<Midia> midias;
 
@@ -143,11 +143,19 @@ public class Paciente {
         this.midias = midias;
     }
 
+    public void addMidia(Midia midia) {
+        this.midias.add(midia);
+    }
+
     public Endereco getEndereco() {
         return endereco;
     }
 
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
+    }
+
+    public void addAtendimento(Atendimento atendimento) {
+        this.atendimentos.add(atendimento);
     }
 }

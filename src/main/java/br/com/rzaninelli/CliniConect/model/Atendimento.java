@@ -1,6 +1,7 @@
 package br.com.rzaninelli.CliniConect.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -15,6 +16,7 @@ public class Atendimento {
     private Integer idAtendimento;
 
     @Column(name = "data_atendimento")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS")
     private LocalDateTime dataAtendimento;
 
     @Column(name = "info_atendimento")
