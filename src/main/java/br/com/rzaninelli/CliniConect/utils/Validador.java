@@ -1,6 +1,11 @@
 package br.com.rzaninelli.CliniConect.utils;
 
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+
 public class Validador {
+
+    private static final String EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
 
     public static boolean validarCPF(String cpf) {
         cpf = cpf.replaceAll("\\D", "");
@@ -43,5 +48,15 @@ public class Validador {
             return false;
 
         return true;
+    }
+
+    public static boolean validarEmail(String email) {
+
+        if (email == null || email.isEmpty())
+            return false;
+
+        Pattern pattern = Pattern.compile(EMAIL_REGEX);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
     }
 }

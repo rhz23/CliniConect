@@ -90,6 +90,11 @@ public class PacienteController {
             return ResponseEntity.badRequest().build();
         }
 
+        if (!paciente.getEmailPaciente().isEmpty() && !Validador.validarEmail(paciente.getEmailPaciente())){
+            log.info("Email Invalido");
+            return ResponseEntity.badRequest().build();
+        }
+
         Paciente resultado = pacienteService.cadastrarPaciente(paciente);
         if (resultado != null) {
             return ResponseEntity.created(new URI("/pacientes/"+resultado.getIdPaciente())).body(resultado);
@@ -106,6 +111,11 @@ public class PacienteController {
 
         if (!paciente.getCpfPaciente().isEmpty() && !Validador.validarCPF(paciente.getCpfPaciente())){
             log.info("CPF Invalido");
+            return ResponseEntity.badRequest().build();
+        }
+
+        if (!paciente.getEmailPaciente().isEmpty() && !Validador.validarEmail(paciente.getEmailPaciente())){
+            log.info("Email Invalido");
             return ResponseEntity.badRequest().build();
         }
 
