@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 public class PacienteServiceImpl implements IPacienteService{
 
     private static final Logger log = LoggerFactory.getLogger(PacienteServiceImpl.class);
+
     @Autowired
     private PacienteDAO pacienteDAO;
 
@@ -70,6 +71,7 @@ public class PacienteServiceImpl implements IPacienteService{
     @Override
     public Paciente alterarPaciente(Paciente paciente) {
         Paciente pacienteTemp = pacienteDAO.findById(paciente.getIdPaciente()).orElse(null);
+
         if (pacienteTemp != null) {
             // Atualizar informações básicas
             pacienteTemp.setNomePaciente(paciente.getNomePaciente());

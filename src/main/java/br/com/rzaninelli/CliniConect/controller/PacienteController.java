@@ -2,6 +2,7 @@ package br.com.rzaninelli.CliniConect.controller;
 
 import br.com.rzaninelli.CliniConect.model.Paciente;
 import br.com.rzaninelli.CliniConect.service.paciente.IPacienteService;
+import br.com.rzaninelli.CliniConect.utils.Validador;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,6 +84,12 @@ public class PacienteController {
     //TODO 03/08/2024 rhzan: Implement the POSTMapping
     @PostMapping("/pacientes")
     public ResponseEntity<Paciente> inserirPaciente(@RequestBody Paciente paciente) throws Exception {
+
+        if (!paciente.getCpfPaciente().isEmpty() && !Validador.validarCPF(paciente.getCpfPaciente())){
+            log.info("CPF Invalido");
+            return ResponseEntity.badRequest().build();
+        }
+
         Paciente resultado = pacienteService.cadastrarPaciente(paciente);
         if (resultado != null) {
             return ResponseEntity.created(new URI("/pacientes/"+resultado.getIdPaciente())).body(resultado);
@@ -96,6 +103,12 @@ public class PacienteController {
         if (id != null) {
             paciente.setIdPaciente(id);
         }
+
+        if (!paciente.getCpfPaciente().isEmpty() && !Validador.validarCPF(paciente.getCpfPaciente())){
+            log.info("CPF Invalido");
+            return ResponseEntity.badRequest().build();
+        }
+
         Paciente pacienteAtual = pacienteService.buscarPacientePorId(id);
         if (pacienteAtual != null) {
             pacienteAtual = pacienteService.alterarPaciente(paciente);
